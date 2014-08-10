@@ -41,7 +41,7 @@
 @implementation STTweetLabel {
     BOOL _isTouchesMoved;
     NSRange _selectableRange;
-    int _firstCharIndex;
+    NSUInteger _firstCharIndex;
     CGPoint _firstTouchLocation;
 }
 
@@ -222,8 +222,12 @@
     _textView.delegate = self;
     _textView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     _textView.backgroundColor = [UIColor clearColor];
-    _textView.textContainer.lineFragmentPadding = 0;
-    _textView.textContainerInset = UIEdgeInsetsZero;
+    
+//#if __IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_8_0
+//    _textView.textContainer.lineFragmentPadding = 0;
+//    _textView.textContainerInset = UIEdgeInsetsZero;
+//#endif
+
     _textView.userInteractionEnabled = NO;
     [self addSubview:_textView];
 }
@@ -401,7 +405,7 @@
     
     _isTouchesMoved = YES;
     
-    int charIndex = [self charIndexAtLocation:[[touches anyObject] locationInView:_textView]];
+    NSUInteger charIndex = [self charIndexAtLocation:[[touches anyObject] locationInView:_textView]];
     
     @try {
         [_textStorage removeAttribute:NSBackgroundColorAttributeName range:_selectableRange];
